@@ -1,19 +1,24 @@
 plugins {
-    id 'java'
+  id 'java'
+  id "io.freefair.aspectj.post-compile-weaving" version "6.6.2"
 }
+
 
 group 'org.example'
 version '1.0-SNAPSHOT'
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+  implementation group: 'org.aspectj', name: 'aspectjrt', version: '1.9.19'
+  implementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.19'
+  implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
 test {
-    useJUnitPlatform()
+  useJUnitPlatform()
 }

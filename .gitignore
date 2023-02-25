@@ -4,11 +4,12 @@ target/
 !**/src/test/**/target/
 
 ### IntelliJ IDEA ###
-.idea
-
+*.idea
+*.idea/sonarlint/*
 *.iws
 *.iml
 *.ipr
+*.gradle
 
 ### Eclipse ###
 .apt_generated

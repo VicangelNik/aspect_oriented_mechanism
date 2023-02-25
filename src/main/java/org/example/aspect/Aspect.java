@@ -1,7 +1,6 @@
-package org.example;
+package org.example.aspect;
 
 import java.lang.reflect.Method;
-
 /*
   A simple aspect-oriented mechanism that supports
   the basic AOP feature of applying before/after/around
