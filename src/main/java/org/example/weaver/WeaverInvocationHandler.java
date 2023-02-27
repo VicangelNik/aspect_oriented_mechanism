@@ -24,14 +24,14 @@ public class WeaverInvocationHandler implements InvocationHandler {
   public Object invoke(Object proxy, Method method, Object[] args) throws NoSuchMethodException {
     final String methodName = method.getName();
     if ("toString".equals(methodName)) {
-      return "MagicAction";
+      return "MagicAction"; // the name of the proxy instance. proxy is a WeaverInvocationHandler instance
     } else if ("multiply".equals(methodName) || "division".equals(methodName)) {
       actionStatus = ActionStatus.RUNNING;
       final Runnable aroundRunnable = aspect.aroundAdviceFor(method);
       try {
         aspect.beforeAdviceFor(method).run();
         aroundRunnable.run();
-        Object returnValue = method.invoke(target, args);
+        final Object returnValue = method.invoke(target, args);
         System.out.println(returnValue);
         aspect.afterAdviceFor(method).run();
         aroundRunnable.run();
