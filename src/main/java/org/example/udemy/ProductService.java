@@ -6,4 +6,6 @@ package org.example.udemy;
 public interface ProductService {
 
   int multiply(int num1, int num2);
+
+  double division(double num1, double num2);
 }

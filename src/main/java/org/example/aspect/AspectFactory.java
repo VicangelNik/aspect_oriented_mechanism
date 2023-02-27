@@ -4,21 +4,9 @@ import javax.validation.constraints.NotNull;
 
 import org.example.aspect.Aspect.Builder;
 import org.example.aspect.Aspect.Weaver;
+import org.example.aspect.AspectImpl.AspectBuilder;
 
 /**
  * @author Nikiforos Xylogiannopoulos
  */
-public final class AspectFactory implements Aspect.Factory {
 
-  @Override
-  @NotNull
-  public Builder newBuilder() {
-    return new AspectBuilder();
-  }
-
-  @Override
-  @NotNull
-  public Weaver newWeaver() {
-    return new AspectWeaver();
-  }
-}

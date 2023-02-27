@@ -7,6 +7,9 @@ import java.lang.reflect.Method;
  */
 public class AspectModel {
 
+  protected static final Runnable EMPTY_RUNNABLE = () -> {
+  };
+
   protected Class<?>[] targets;
   protected Runnable beforeAdviceRunnable;
   protected Method[] beforeAdviceMethods;

@@ -3,38 +3,46 @@ package org.example.weaver;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
+import org.example.aspect.Aspect;
+
 /**
  * @author Nikiforos Xylogiannopoulos
  */
 public class WeaverInvocationHandler implements InvocationHandler {
 
   private ActionStatus actionStatus;
-  private final Runnable runnable;
+  private final Object target;
+  private final Aspect aspect;
 
-  public WeaverInvocationHandler(final Runnable runnable) {
+  public WeaverInvocationHandler(final Object target, final Aspect aspect) {
     this.actionStatus = ActionStatus.READY;
-    this.runnable = runnable;
+    this.target = target;
+    this.aspect = aspect;
   }
 
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws NoSuchMethodException {
-    String methodName = method.getName();
-    if ("getStatus".equals(methodName)) {
-      return actionStatus;
-    }
-    if ("execute".equals(methodName)) {
+    final String methodName = method.getName();
+    if ("toString".equals(methodName)) {
+      return "MagicAction";
+    } else if ("multiply".equals(methodName) || "division".equals(methodName)) {
       actionStatus = ActionStatus.RUNNING;
+      final Runnable aroundRunnable = aspect.aroundAdviceFor(method);
       try {
-        runnable.run();
+        aspect.beforeAdviceFor(method).run();
+        aroundRunnable.run();
+        Object returnValue = method.invoke(target, args);
+        System.out.println(returnValue);
+        aspect.afterAdviceFor(method).run();
+        aroundRunnable.run();
         actionStatus = ActionStatus.FINISHED;
-        return null;
+
+        return returnValue;
       } catch (Exception ex) {
+        System.out.println("exception occurred :" + ex.getMessage() + System.lineSeparator() + " with status " + actionStatus);
         actionStatus = ActionStatus.FAILED;
         throw new RuntimeException(ex);
       }
-    }
-    if ("toString".equals(methodName)) {
-      return "MagicAction";
     }
     throw new NoSuchMethodException(methodName);
   }
