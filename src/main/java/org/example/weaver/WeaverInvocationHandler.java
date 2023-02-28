@@ -2,6 +2,7 @@ package org.example.weaver;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import org.example.aspect.Aspect;
 
@@ -21,11 +22,20 @@ public class WeaverInvocationHandler implements InvocationHandler {
   }
 
   @Override
-  public Object invoke(Object proxy, Method method, Object[] args) throws NoSuchMethodException {
+  public Object invoke(Object proxy, Method method, Object[] args) {
     final String methodName = method.getName();
+
+    if (!method.getDeclaringClass().isInterface()) {
+      throw new IllegalArgumentException("Method should come from interface as assumptions suggest");
+    }
+
+    if (Arrays.stream(target.getClass().getInterfaces()).noneMatch(clazz -> clazz.toString().equals(method.getDeclaringClass().toString()))) {
+      throw new IllegalArgumentException("target class should be an implementation of method's interface");
+    }
+
     if ("toString".equals(methodName)) {
-      return "MagicAction"; // the name of the proxy instance. proxy is a WeaverInvocationHandler instance
-    } else if ("multiply".equals(methodName) || "division".equals(methodName)) {
+      return "WeaverInvocationHandler"; // the name of the proxy instance. proxy is a WeaverInvocationHandler instance
+    } else {
       actionStatus = ActionStatus.RUNNING;
       final Runnable aroundRunnable = aspect.aroundAdviceFor(method);
       try {
@@ -44,7 +54,6 @@ public class WeaverInvocationHandler implements InvocationHandler {
         throw new RuntimeException(ex);
       }
     }
-    throw new NoSuchMethodException(methodName);
   }
 }
 

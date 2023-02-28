@@ -11,8 +11,6 @@ import javax.validation.constraints.NotNull;
 
 import org.example.weaver.WeaverInvocationHandler;
 
-import com.sun.tools.javac.Main;
-
 /**
  * @author Nikiforos Xylogiannopoulos
  */
@@ -31,7 +29,7 @@ public class AspectImpl extends AspectModel implements Aspect {
 
   @Override
   public Runnable beforeAdviceFor(Method method) {
-    final List<String> beforeAdviceMethods = adviceMethodMap.get(beforeAdviceRunnable).stream().map(Method::getName).collect(Collectors.toList());;
+    final List<String> beforeAdviceMethods = adviceMethodMap.get(beforeAdviceRunnable).stream().map(Method::getName).collect(Collectors.toList());
 
     if (beforeAdviceMethods.contains(method.getName())) {
       return beforeAdviceRunnable;
@@ -42,7 +40,7 @@ public class AspectImpl extends AspectModel implements Aspect {
 
   @Override
   public Runnable afterAdviceFor(Method method) {
-    final List<String> afterAdviceMethods = adviceMethodMap.get(afterAdviceRunnable).stream().map(Method::getName).collect(Collectors.toList());;
+    final List<String> afterAdviceMethods = adviceMethodMap.get(afterAdviceRunnable).stream().map(Method::getName).collect(Collectors.toList());
 
     if (afterAdviceMethods.contains(method.getName())) {
       return afterAdviceRunnable;

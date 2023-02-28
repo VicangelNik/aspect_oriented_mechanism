@@ -1,6 +1,6 @@
 # Aspect Mechanism
 
-Simple implementation o aspect mechanism in java. The exercise is the implementation of **Aspect** interface
+Simple implementation of aspect mechanism in java. The implementation of **Aspect** interface is
 in package _org.example.aspect_. There is also a module (**spring_aspect_programming_example**) that explores a bit spring with aop
 and an example for aspectJ without any framework and another one for dynamic proxies.
 
